@@ -1,4 +1,4 @@
-update=Qua 21 Mar 2018 17:21:14 -03
+update=Qua 28 Mar 2018 17:31:21 -03
 version=1
 last_client=kicad
 [pcbnew]
@@ -62,3 +62,13 @@ LibName30=atmel
 LibName31=contrib
 LibName32=valves
 LibName33=deltarobot-comps
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
