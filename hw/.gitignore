@@ -1,0 +1,8 @@
+*/*.bak
+*/*.dck
+*/*.dcm
+*/*.bck
+*/*.dsn
+*/*.kicad_pcb-bak
+*/*-cache.lib
+*/_saved*
