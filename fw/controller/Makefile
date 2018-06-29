@@ -45,7 +45,7 @@ PART=LM4F232H5BB
 #
 # The base directory for TivaWare.
 #
-ROOT=../..
+ROOT=/home/camargo/tilib
 
 #
 # Include the common make definitions.
@@ -55,7 +55,7 @@ include ${ROOT}/makedefs
 #
 # Where to find header files that do not live in the source directory.
 #
-IPATH=../..:../include
+IPATH=../..:/home/camargo/tilib/camargo/include:/home/camargo/tilib
 
 #
 # The default rule, which causes the project example to be built.
