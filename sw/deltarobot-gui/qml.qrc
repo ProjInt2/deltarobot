@@ -2,7 +2,12 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>CoordinateRow.qml</file>
+        <file>ExechonScene.qml</file> 
         <file>glcode.js</file>
         <file>three.js</file>
+        <file>res/3d-mock.png</file>
+        <file>res/menu-header.jpg</file> 
+        <file>res/amigas.jpg</file>  
     </qresource>
-</RCC>
+</RCC>  
