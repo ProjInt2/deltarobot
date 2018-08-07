@@ -2,10 +2,6 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0 as QQC2
 import org.kde.kirigami 2.4 as Kirigami
 
-// for some reason Canvas3D is not included in the distro-packaged Qt 5.11
-// import QtCanvas3D 1.1
-// import "glcode.js" as GLCode
-
 
 Kirigami.ApplicationWindow {
     
@@ -17,6 +13,12 @@ Kirigami.ApplicationWindow {
     visible: true
     
     property bool editingRobot: false
+    property vector3d vecWADims: Qt.vector3d(0.5, 0.8, 0.5)
+    property vector3d displacementNow: Qt.vector3d(0, 0, 0)
+    /*
+    property vector3d vecArmBPos: Qt.vector3d(0.38, 0.0, 0.25) 
+    property vector3d vecArmCPos: Qt.vector3d(0.12, 0.0, 0.4)
+    */
     
     globalDrawer: Kirigami.GlobalDrawer {
         title: "Exechon"
@@ -60,6 +62,8 @@ Kirigami.ApplicationWindow {
         Item
         {
             
+            Keys.onEscapePressed: Qt.quit()
+            
             QQC2.Pane
             {
                 id: sidebar
@@ -75,13 +79,22 @@ Kirigami.ApplicationWindow {
                     
                     QQC2.Label { text: "Prismatic Displacement" }
                     
-                    CoordinateRow {}
+                    CoordinateRow 
+                    {
+                        id: pd
+                        value: dmodel.performIK(pp.value)
+                        onEdited: pp.value = dmodel.performFK( value )
+                    }
                     
                     Item {height: 10; width: 1} // spacer
                     
                     QQC2.Label { text: "Platform Position" }
                     
-                    CoordinateRow {}
+                    CoordinateRow {
+                        id: pp
+                        value: vecWADims.times(0.5)
+                        onEdited: pd.value = dmodel.performIK( value )
+                    }
                 }
             }
             
@@ -93,15 +106,37 @@ Kirigami.ApplicationWindow {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom         
                 
-//                 Rectangle
-//                 {
-//                     color: "royalblue"
-//                     anchors.fill: parent
-//                 }
+                Rectangle {
+                    anchors.fill: parent
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "#333" }
+                        GradientStop { position: 1.0; color: "#111" }
+                    }
+                }
+                
                 ExechonScene{
                     id: scene
                     anchors.fill: parent
+                    focus: true
+                    
+                    workArea: vecWADims
+                    jointAPosition: dmodel.armAPos 
+                    jointBPosition: dmodel.armBPos
+                    jointCPosition: dmodel.armCPos
+                    
+                    platformPosition: pp.value
+                    armDisplacements: pd.value
                 }
+                
+                MouseArea
+                {
+                    anchors.fill: parent
+                    visible: !scene.focus
+                    onPressed: {scene.focus = true; mouse.accepted = false}
+                    propagateComposedEvents: true
+                    acceptedButtons: Qt.AllButtons 
+                }
+                
             }
             
             
@@ -161,33 +196,33 @@ Kirigami.ApplicationWindow {
                 
                 Item {height: 10; width: 1} // spacer
                 
-                QQC2.Label { text: "Arm A Position" }
+                QQC2.Label { text: "Work Area Dimensions" }
+                CoordinateRow { id: crWADims; value: vecWADims }
                 
-                CoordinateRow {}
+                Item {height: 10; width: 1} // spacer
+                
+                QQC2.Label { text: "Arm A Position" }
+                CoordinateRow { id: crArmAPos; value: dmodel.armAPos }
                 
                 Item {height: 10; width: 1} // spacer
                 
                 QQC2.Label { text: "Arm B Position" }
-                
-                CoordinateRow {}
+                CoordinateRow { id: crArmBPos; value: dmodel.armBPos }
                 
                 Item {height: 10; width: 1} // spacer
                 
                 QQC2.Label { text: "Arm C Position" }
-                
-                CoordinateRow {}
+                CoordinateRow { id: crArmCPos; value: dmodel.armCPos }
                 
                 Item {height: 10; width: 1} // spacer
                 
                 QQC2.Label { text: "A-C Joint Distance" }
-                
-                CoordinateRow {}
+                CoordinateRow { id: crACdist }
                 
                 Item {height: 10; width: 1} // spacer
                 
                 QQC2.Label { text: "B Joint Distance to A-C line" }
-                
-                CoordinateRow {}
+                CoordinateRow { id: crBdist }
                 
                 
             }
@@ -221,28 +256,58 @@ Kirigami.ApplicationWindow {
                     root.pageStack.pop()
                 }
                 
+            }            
+            
+            QQC2.Button
+            {
+                anchors.right: robot_param_ok.left
+                anchors.bottom: parent.bottom
+                anchors.rightMargin: 45
+                
+                id: robot_show_model
+                text: "Show Model"
+                onClicked: 
+                {
+                    modelModal.opacity = 1
+                }
+                
             }
         }
         
     }
     
-    /*
-    Canvas3D {
-        id: canvas3d
+    MouseArea
+    {
+        id: modelModal
         anchors.fill: parent
-        focus: true
-
-        onInitializeGL: {
-            GLCode.initializeGL(canvas3d);
+        
+        Rectangle
+        {
+            color: "black"
+            opacity: 0.8
+            anchors.fill: parent
         }
-
-        onPaintGL: {
-            GLCode.paintGL(canvas3d);
+        
+        Image
+        {
+            source: "res/ed-mock-2.png"
+            anchors.fill: parent
+            anchors.margins: 20
+            fillMode: Image.PreserveAspectFit
         }
-
-        onResizeGL: {
-            GLCode.resizeGL(canvas3d);
+        
+        QQC2.Label
+        {
+            color: "white"
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "<i>Source: </i> Z.M. Bi, Y. Jin. <b>Kinematic modeling of Exechon parallel kinematic machine.</b> doi:10.1016/j.rcim.2010.07.006"
         }
+        
+        Behavior on opacity { NumberAnimation {} }
+        opacity: 0
+        visible: opacity
+        onClicked: opacity = 0
     }
-    */
+
 }

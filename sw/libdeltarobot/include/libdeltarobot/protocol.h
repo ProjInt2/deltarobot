@@ -78,6 +78,29 @@ extern "C"
     int dp_send( struct protocol_msg *msg, send_func_t sendfunc, void *usr );
     
     
+    
+//// CONVENIENCE STRUCTURES
+    
+    struct protocol_msg_status_report
+    {
+        float DA;
+        float DB;
+        float DC;
+        unsigned char STAT;
+    }; // __attribute__((packed)); not needed
+    
+    struct protocol_msg_position
+    {
+        float DA;
+        float DB;
+        float DC;
+    }; // __attribute__((packed)); not needed
+    
+#define DP_STATUS_IDLE   0
+#define DP_STATUS_HOMING 1
+#define DP_STATUS_MOVING 2
+#define DP_STATUS_ERROR  3
+    
 #ifdef __cplusplus
 };
 #endif

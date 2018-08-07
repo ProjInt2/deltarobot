@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html dir="ltr" class="client-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Motor Driver Module-L298N - Wiki</title>
+<meta name="generator" content="MediaWiki 1.25.2">
+<link rel="shortcut icon" href="http://wiki.sunfounder.cc/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://wiki.sunfounder.cc/opensearch_desc.php" title="Wiki (en)">
+<link rel="EditURI" type="application/rsd+xml" href="http://wiki.sunfounder.cc/api.php?action=rsd">
+<link rel="alternate" hreflang="x-default" href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N">
+<link rel="alternate" type="application/atom+xml" title="Wiki Atom feed" href="http://wiki.sunfounder.cc/index.php?title=Special:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/load.css">
+<style>
+.mw-collapsible-toggle{float:right;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;user-select:none}  .mw-content-ltr .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr .mw-collapsible-toggle{float:right} .mw-content-rtl .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl .mw-collapsible-toggle{float:left}.mw-customtoggle,.mw-collapsible-toggle{cursor:pointer} caption .mw-collapsible-toggle,.mw-content-ltr caption .mw-collapsible-toggle,.mw-content-rtl caption .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr caption .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl caption .mw-collapsible-toggle{float:none} li .mw-collapsible-toggle,.mw-content-ltr li .mw-collapsible-toggle,.mw-content-rtl li .mw-collapsible-toggle,.mw-content-rtl .mw-content-ltr li .mw-collapsible-toggle,.mw-content-ltr .mw-content-rtl li .mw-collapsible-toggle{float:none} .mw-collapsible-toggle-li{list-style:none}
+/* cache key: mzt54542_wiki:resourceloader:filter:minify-css:7:e1ffd603cbaaa5f1a36e0d13fe843535 */
+.suggestions{overflow:hidden;position:absolute;top:0;left:0;width:0;border:none;z-index:1099;padding:0;margin:-1px 0 0 0}.suggestions-special{position:relative;background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0;margin-top:-2px;display:none;padding:0.25em 0.25em;line-height:1.25em}.suggestions-results{background-color:white;cursor:pointer;border:solid 1px #aaaaaa;padding:0;margin:0}.suggestions-result{color:black;margin:0;line-height:1.5em;padding:0.01em 0.25em;text-align:left; overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}.suggestions-result-current{background-color:#4C59A6;color:white}.suggestions-special .special-label{color:gray;text-align:left}.suggestions-special .special-query{color:black;font-style:italic;text-align:left}.suggestions-special .special-hover{background-color:silver}.suggestions-result-current .special-label,.suggestions-result-current .special-query{color:white}.highlight{font-weight:bold}
+/* cache key: mzt54542_wiki:resourceloader:filter:minify-css:7:f8d0c6895ce3ae14434c16b8fca59432 */
+.postedit-container{margin:0 auto;position:fixed;top:0;height:0;left:50%;z-index:1000;font-size:13px}.postedit-container:hover{cursor:pointer}.postedit{position:relative;top:0.6em;left:-50%;padding:.6em 3.6em .6em 1.1em;line-height:1.5625em;color:#626465;background-color:#f4f4f4;border:1px solid #dcd9d9;text-shadow:0 0.0625em 0 rgba(255,255,255,0.5);border-radius:5px;box-shadow:0 2px 5px 0 #ccc;-webkit-transition:all 0.25s ease-in-out;-moz-transition:all 0.25s ease-in-out;-ms-transition:all 0.25s ease-in-out;-o-transition:all 0.25s ease-in-out;transition:all 0.25s ease-in-out}.skin-monobook .postedit{top:6em !important}.postedit-faded{opacity:0}.postedit-icon{padding-left:41px;  line-height:25px;background-repeat:no-repeat;background-position:8px 50%}.postedit-icon-checkmark{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABblBMVEUAAAD///////9PfTf///80aRdTgjn///9Feij///////////9Rfzf///////////9PfjZRgDh1o1xOfTb///////+bwYqLtnj///////9PfTa82K////9WhT6YxIL///9QgDdTgzr////////j7uDl7eLq8efi693k7OH///////9UhjuBr2rp9uRUhjr///9YljVKgir///9WiTlYjT3////9/v57vFlbkT5PjC9dlD/5/fhuq09stUTs9uhxuElctCpfnT1huDFloEZloUZmpENmvDZpvDxpvTxqvjxrvT5rvT9rwTxsqktswD5uwkBvuUdxw0NztFBztU9ztVBzwkp0tlJ1xkd2t1R3uVR4w1F4xk54x014yE15uVZ5v1R5xVB6v1R7yFJ8wVh9xVl9yFR9yVd9ylN+xVh+yFd/x1l/yFeAylmEx1+Ny2uY0Hqe04Wj1Ymv3Ze33qLD47TJ5L3O6cPU7Mrq9eb2+/Q4j37OAAAAQHRSTlMAAQIEBAUFBQwPFB4fJCUoKiosQEhJS01RUlZZXmdydXaChYuSlJSWmJmoq6uur8LExcvM19fg5ejt8fX2+Pr7SljgewAAAKpJREFUGBkFwQNCAwAAAMDLtl3LtrG4rWXbtvX77gAgZ6grFwC0bhwNVgKgdPZx8b0dgLi+s7Wn0VoAqpfOI9+BNADZI7fLrz2pSEwGHZuH+78lSK8ZLkLezF3ooyUG3VPXq2USei9WngeyoG195yBYWDF3E/2pAhl1e9Gr8bGT+bfOFCC2fnvh4X7rcqIAQNNu+HT6sxkAjceTL/2ZAIhv+PorBwBJxfkA//dFHSCBy/UTAAAAAElFTkSuQmCC);background-image:url(http://wiki.sunfounder.cc/resources/src/mediawiki.action/images/green-checkmark.png?2015-08-10T21:21:40Z)!ie;background-position:left}.postedit-close{position:absolute;padding:0 .8em;right:0;top:0;font-size:1.25em;font-weight:bold;line-height:2.3em;color:black;text-shadow:0 0.0625em 0 white;text-decoration:none;opacity:0.2;filter:alpha(opacity=20)}.postedit-close:hover{color:black;text-decoration:none;opacity:0.4;filter:alpha(opacity=40)}
+/* cache key: mzt54542_wiki:resourceloader:filter:minify-css:7:f09d6615ebc8043adcffc56d2e13f5e7 */</style><style>
+.suggestions a.mw-searchSuggest-link,.suggestions a.mw-searchSuggest-link:hover,.suggestions a.mw-searchSuggest-link:active,.suggestions a.mw-searchSuggest-link:focus{color:black;text-decoration:none}.suggestions-result-current a.mw-searchSuggest-link,.suggestions-result-current a.mw-searchSuggest-link:hover,.suggestions-result-current a.mw-searchSuggest-link:active,.suggestions-result-current a.mw-searchSuggest-link:focus{color:white}.suggestions a.mw-searchSuggest-link .special-query{ overflow:hidden;-o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap}
+/* cache key: mzt54542_wiki:resourceloader:filter:minify-css:7:ae3fa4570b5ac0c6cf7b3776c8ae4d6f */</style><meta name="ResourceLoaderDynamicStyles" content="">
+<style>a:lang(ar),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}
+/* cache key: mzt54542_wiki:resourceloader:filter:minify-css:7:c149b8b8dcbb19511feb982f6e08e601 */</style>
+<script src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/load_003.php"></script><script src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/load_002.php"></script>
+<script>if(window.mw){
+mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Motor_Driver_Module-L298N","wgTitle":"Motor Driver Module-L298N","wgCurRevisionId":3028,"wgRevisionId":3028,"wgArticleId":291,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":[],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Motor_Driver_Module-L298N","wgRelevantArticleId":291,"wgIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[]});
+}</script><script>if(window.mw){
+mw.loader.implement("user.options",function($,jQuery){mw.user.options.set({"variant":"en"});});mw.loader.implement("user.tokens",function($,jQuery){mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\"});});
+/* cache key: mzt54542_wiki:resourceloader:filter:minify-js:7:a5c52c063dc436c1ca7c9f456936a5e9 */
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.page.startup","mediawiki.legacy.wikibits","mediawiki.legacy.ajax","skins.vector.js"]);
+}</script><script src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/load.php"></script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("http://wiki.sunfounder.cc/skins/Vector/csshover.min.htc")}</style><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-Motor_Driver_Module-L298N skin-vector action-view">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+
+						<div class="mw-indicators">
+</div>
+			<h1 id="firstHeading" class="firstHeading" lang="en">Motor Driver Module-L298N</h1>
+						<div id="bodyContent" class="mw-body-content">
+									<div id="siteSub">From Wiki</div>
+								<div id="contentSub"></div>
+												<div id="jump-to-nav" class="mw-jump">
+					Jump to:					<a href="#mw-head">navigation</a>, 					<a href="#p-search">search</a>
+				</div>
+				<div id="mw-content-text" dir="ltr" class="mw-content-ltr" lang="en"><div id="toc" class="toc"><div id="toctitle"><h2>Contents</h2><span class="toctoggle">&nbsp;[<a href="#" id="togglelink">hide</a>]&nbsp;</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Drecription"><span class="tocnumber">1</span> <span class="toctext"><b>Drecription</b></span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#Features"><span class="tocnumber">2</span> <span class="toctext"><b>Features</b></span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#Pin_Function"><span class="tocnumber">3</span> <span class="toctext"><b>Pin Function</b></span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#Principle"><span class="tocnumber">4</span> <span class="toctext"><b>Principle</b></span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#Block_Diagram"><span class="tocnumber">5</span> <span class="toctext"><b>Block Diagram</b></span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="#Application"><span class="tocnumber">6</span> <span class="toctext"><b>Application</b></span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#Resoures"><span class="tocnumber">7</span> <span class="toctext"><b>Resoures</b></span></a></li>
+</ul>
+</div>
+
+<h2><span class="mw-headline" id="Drecription"><b>Drecription</b></span></h2>
+<p><a href="http://wiki.sunfounder.cc/index.php?title=File:Motor1.JPG" class="image"><img alt="Motor1.JPG" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/Motor1.JPG" width="502" height="490"></a><br>
+The L298N is an integrated monolithic circuit in a 15- lead Multiwatt 
+and PowerSO20 packages. It is a high voltage , high current dual 
+full-bridge driver de-signed to accept standard TTL logic level sand 
+drive inductive loads such as relays, solenoids, DC and stepping motors.
+ Two enable inputs are provided to enable or disable the device 
+independently of the in-put signals .The emitters of the lower 
+transistors of each bridge are connected together rand the corresponding
+ external terminal can be used for the connection of an external sensing
+ resistor. An additional Supply input is provided so that the logic 
+works at a lower voltage.<br>
+Its schematic diagram is as shown in figure (a):<br>
+<a href="http://wiki.sunfounder.cc/index.php?title=File:Motor2.png" class="image"><img alt="Motor2.png" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/Motor2.png" width="800" height="691"></a><br>
+(a)Schematic diagram for motor drive module<br>
+</p>
+<h2><span class="mw-headline" id="Features"><b>Features</b></span></h2>
+<p>1)	High operating voltage, which can be up to 40 volts;<br> 
+2)	Large output current, the instantaneous peak current can be up to 3A;<br> 
+3)	With 25W rated power; <br>
+4)	Two built in H-bridge, high voltage, large current, full bridge 
+driver, which can be used to drive DC motors, stepper motors, relay 
+coils and other inductive loads. <br>
+5)	Using standard logic level signal to control.<br> 
+6)	Able to drive a two-phase stepper motor or four-phase stepper motor, and two-phase DC motors.<br>
+7)	Adopt a high-capacity filter capacitor and a freewheeling diode that 
+protects devices in the circuit from being damaged by the reverse 
+current of an inductive load, enhancing reliability<br>
+8)	The module can utilize the built-in stabilivolt tube 78M05 to obtain 
+5v from the power supply. But to protect the chip of the 78M05 from 
+damage, when the drive voltage is greater than 12v, an external 5v logic
+ supply should be used. <br>
+9)	Drive voltage: 5-35V; logic voltage: 5V<br>
+10)	PCB size: 4.2 x 4.2 cm<br>
+</p>
+<h2><span class="mw-headline" id="Pin_Function"><b>Pin Function</b></span></h2>
+<p><a href="http://wiki.sunfounder.cc/index.php?title=File:Motor3.png" class="image"><img alt="Motor3.png" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/Motor3.png" width="784" height="450"></a><br>
+Its pin functions are as shown in table (1):<br>
+<a href="http://wiki.sunfounder.cc/index.php?title=File:Motor4.png" class="image"><img alt="Motor4.png" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/Motor4.png" width="739" height="609"></a><br>
+(1) Table for L298N pin functions<br>
+</p>
+<h2><span class="mw-headline" id="Principle"><b>Principle</b></span></h2>
+<p>The driver module can drive two motors. The enabled terminals ENA and
+ ENB are effective at high level. The control mode and state of motor A 
+are as shown in table (2):<br>
+<a href="http://wiki.sunfounder.cc/index.php?title=File:Motor5.png" class="image"><img alt="Motor5.png" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/Motor5.png" width="498" height="209"></a><br> 
+(2) Table for control mode and state of motor A<br>
+If you want to regulate the speed of motor A by PWM, you need to set IN1
+ and IN2, confirm the rotational direction of the motor, and then output
+ PWM pulses for enabled terminals. Please note the motor is in the free 
+stop state when the signal of enabled terminal is 0. When the enabled 
+signal is 1, if IN1 and IN2 are 00 or 11, the motor is in brake state, 
+and the motor stops rotating. If IN1 is 0 and IN2 is 1, the motor A 
+rotates clockwise; if IN1 is 1 and IN2 is 0, the motor A rotates 
+counterclockwise. This is the control method for motor A. The control 
+method for motor B is the same as that for motor A.<br>
+</p>
+<h2><span class="mw-headline" id="Block_Diagram"><b>Block Diagram</b></span></h2>
+<p><a href="http://wiki.sunfounder.cc/index.php?title=File:Motor6.png" class="image"><img alt="Motor6.png" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/Motor6.png" width="800" height="422"></a>
+</p>
+<h2><span class="mw-headline" id="Application"><b>Application</b></span></h2>
+<p>The module can be applied to:
+-	Drive DC motors. Since the module uses a dual H-bridge drive, it can drive two motors at the same time.<br> 
+-	Drive stepping motors. It can also drive two stepping motors synchronously.<br>
+</p>
+<h2><span class="mw-headline" id="Resoures"><b>Resoures</b></span></h2>
+<p><a rel="nofollow" target="_blank" class="external text" href="http://wiki.sunfounder.cc/images/a/ad/L298N.pdf">L298N</a><a href="http://wiki.sunfounder.cc/index.php?title=File:PDF.jpg" class="image"><img alt="PDF.jpg" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/PDF.jpg" width="24" height="30"></a><br>
+<a rel="nofollow" target="_blank" class="external text" href="http://wiki.sunfounder.cc/images/b/bf/L298N_test_code.zip">L298N_test_code for Arduino</a><a href="http://wiki.sunfounder.cc/index.php?title=File:ZIP.jpg" class="image"><img alt="ZIP.jpg" src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/ZIP.jpg" width="30" height="29"></a>
+</p>
+<!-- 
+NewPP limit report
+CPU time usage: 0.043 seconds
+Real time usage: 0.144 seconds
+Preprocessor visited node count: 26/1000000
+Preprocessor generated node count: 32/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/40
+Expensive parser function count: 0/100
+-->
+
+<!-- 
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 - -total
+-->
+
+<!-- Saved in parser cache with key mzt54542_wiki:pcache:idhash:291-0!*!*!!en!5!* and timestamp 20180711153029 and revision id 3028
+ -->
+</div>									<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N&amp;oldid=3028">http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N&amp;oldid=3028</a>"					</div>
+													<div id="catlinks" class="catlinks catlinks-allhidden"></div>												<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-login"><a href="http://wiki.sunfounder.cc/index.php?title=Special:UserLogin&amp;returnto=Motor+Driver+Module-L298N" title="You are encouraged to log in; however, it is not mandatory [Alt+Shift+o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+															<li id="ca-nstab-main" class="selected"><span><a href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N" title="View the content page [Alt+Shift+c]" accesskey="c">Page</a></span></li>
+															<li id="ca-talk" class="new"><span><a href="http://wiki.sunfounder.cc/index.php?title=Talk:Motor_Driver_Module-L298N&amp;action=edit&amp;redlink=1" title="Discussion about the content page [Alt+Shift+t]" accesskey="t">Discussion</a></span></li>
+													</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<h3 id="p-variants-label" tabindex="0"><span>Variants</span><a href="#" tabindex="-1"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+															<li id="ca-view" class="selected"><span><a href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N">Read</a></span></li>
+															<li id="ca-viewsource"><span><a href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N&amp;action=edit" title="This page is protected.
+You can view its source [Alt+Shift+e]" accesskey="e">View source</a></span></li>
+															<li id="ca-history" class="collapsible"><span><a href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N&amp;action=history" title="Past revisions of this page [Alt+Shift+h]" accesskey="h">View history</a></span></li>
+													</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label" style="">
+						<h3 id="p-cactions-label" tabindex="0"><span>More</span><a href="#" tabindex="-1"></a></h3>
+
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+
+						<form action="http://wiki.sunfounder.cc/index.php" id="searchform">
+														<div id="simpleSearch">
+															<input type="search" name="search" placeholder="Search" title="Search Wiki [Alt+Shift+f]" accesskey="f" id="searchInput" tabindex="1" autocomplete="off"><input type="hidden" value="Special:Search" name="title"><input type="submit" name="go" value="Go" title="Go to a page with this exact name if exists" id="searchButton" class="searchButton">								</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="https://www.sunfounder.com/" title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-Navigation" aria-labelledby="p-Navigation-label">
+			<h3 id="p-Navigation-label">Navigation</h3>
+
+			<div class="body">
+									<ul>
+													<li id="n-mainpage-description"><a href="http://wiki.sunfounder.cc/index.php?title=Main_Page" title="Visit the main page [Alt+Shift+z]" accesskey="z">Main page</a></li>
+													<li id="n-randompage"><a href="http://wiki.sunfounder.cc/index.php?title=Special:Random" title="Load a random page [Alt+Shift+x]" accesskey="x">Random page</a></li>
+													<li id="n-recentchanges"><a href="http://wiki.sunfounder.cc/index.php?title=Special:RecentChanges" title="A list of recent changes in the wiki [Alt+Shift+r]" accesskey="r">Recent changes</a></li>
+											</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-Collections" aria-labelledby="p-Collections-label">
+			<h3 id="p-Collections-label">Collections</h3>
+
+			<div class="body">
+									<ul>
+													<li id="n-SHOP"><a href="http://www.sunfounder.com/" rel="nofollow" target="_blank">SHOP</a></li>
+													<li id="n-LEARN"><a href="http://www.sunfounder.com/learn" rel="nofollow" target="_blank">LEARN</a></li>
+													<li id="n-FORUM"><a href="http://www.sunfounder.com/forum" rel="nofollow" target="_blank">FORUM</a></li>
+													<li id="n-BLOG"><a href="http://www.sunfounder.com/blog" rel="nofollow" target="_blank">BLOG</a></li>
+													<li id="n-VIDEO"><a href="http://www.sunfounder.com/video" rel="nofollow" target="_blank">VIDEO</a></li>
+											</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+
+			<div class="body">
+									<ul>
+													<li id="t-whatlinkshere"><a href="http://wiki.sunfounder.cc/index.php?title=Special:WhatLinksHere/Motor_Driver_Module-L298N" title="A list of all wiki pages that link here [Alt+Shift+j]" accesskey="j">What links here</a></li>
+													<li id="t-recentchangeslinked"><a href="http://wiki.sunfounder.cc/index.php?title=Special:RecentChangesLinked/Motor_Driver_Module-L298N" title="Recent changes in pages linked from this page [Alt+Shift+k]" accesskey="k">Related changes</a></li>
+													<li id="t-specialpages"><a href="http://wiki.sunfounder.cc/index.php?title=Special:SpecialPages" title="A list of all special pages [Alt+Shift+q]" accesskey="q">Special pages</a></li>
+													<li id="t-print"><a href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N&amp;printable=yes" rel="alternate" title="Printable version of this page [Alt+Shift+p]" accesskey="p">Printable version</a></li>
+													<li id="t-permalink"><a href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N&amp;oldid=3028" title="Permanent link to this revision of the page">Permanent link</a></li>
+													<li id="t-info"><a href="http://wiki.sunfounder.cc/index.php?title=Motor_Driver_Module-L298N&amp;action=info" title="More information about this page">Page information</a></li>
+											</ul>
+							</div>
+		</div>
+				</div>
+		</div>
+		<div id="footer" role="contentinfo">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> This page was last modified on 20 March 2017, at 07:02.</li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wiki.sunfounder.cc/index.php?title=Wiki:Privacy_policy" title="Wiki:Privacy policy">Privacy policy</a></li>
+											<li id="footer-places-about"><a href="http://wiki.sunfounder.cc/index.php?title=Wiki:About" title="Wiki:About">About Wiki</a></li>
+											<li id="footer-places-disclaimer"><a href="http://wiki.sunfounder.cc/index.php?title=Wiki:General_disclaimer" title="Wiki:General disclaimer">Disclaimers</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+											<li id="footer-poweredbyico">
+															<a href="http://www.mediawiki.org/"><img src="Motor%20Driver%20Module-L298N%20-%20Wiki_arquivos/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="http://wiki.sunfounder.cc/resources/assets/poweredby_mediawiki_132x47.png 1.5x, http://wiki.sunfounder.cc/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31"></a>
+													</li>
+									</ul>
+						<div style="clear:both"></div>
+		</div>
+		<script>if(window.jQuery)jQuery.ready();</script><script>if(window.mw){
+mw.loader.state({"site":"ready","user":"ready","user.groups":"ready"});
+}</script>
+<script>if(window.mw){
+mw.loader.load(["mediawiki.toc","mediawiki.action.view.postEdit","mediawiki.user","mediawiki.hidpi","mediawiki.page.ready","mediawiki.searchSuggest"],null,true);
+}</script>
+<script>if(window.mw){
+mw.config.set({"wgBackendResponseTime":124});
+}</script>
+	
+
+<div style="display: none; font-size: 13px;" class="suggestions"><div class="suggestions-results"></div><div class="suggestions-special"></div></div></body></html>

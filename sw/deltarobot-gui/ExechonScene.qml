@@ -16,6 +16,12 @@ Scene3D {
     property vector3d jointBPosition: Qt.vector3d(0.38, 0.0, 0.25)
     property vector3d jointCPosition: Qt.vector3d(0.12, 0.0, 0.4)
     
+    property real d_b1b3: 0.15
+    property real d_b2: 0.10
+    
+    property vector3d platformPosition: workArea.times(0.5)
+    property vector3d armDisplacements: Qt.vector3d(0,0,0)
+    
 Entity {
     id: sceneRoot
     
@@ -26,18 +32,22 @@ Entity {
         fieldOfView: 45
         nearPlane : 0.1
         farPlane : 1000.0
-        position: Qt.vector3d( workArea.x / 2, workArea.y / 2, workArea.z * 3 )
+        position: Qt.vector3d( workArea.x / 2, workArea.y / 2, workArea.z * 3.5 )
         upVector: Qt.vector3d( 0.0, -1.0, 0.0 )
         viewCenter: workArea.times(0.5)
     }
     
-    FirstPersonCameraController { camera: camera }
+    OrbitCameraController 
+    { 
+        camera: camera 
+        linearSpeed: 0.0
+    }
     
     components: [
     RenderSettings {
         activeFrameGraph: ForwardRenderer {
             camera: camera
-            clearColor: "#321"
+            clearColor: "transparent"
         }
     },
     InputSettings { }
@@ -46,16 +56,16 @@ Entity {
     GoochMaterial {
         id: material
         
-        warm: "orange"
-        cool: "blue"
-        diffuse: "grey"
-        specular: "white"
+        warm: "#883300"
+        cool: "#0033ff"
+        diffuse: "white"
+        specular: "black"
     }
     
     
     Transform
     {
-        id: identity
+        id: identityTransform
     }
     
     // Work Area Geometry
@@ -91,17 +101,33 @@ Entity {
     }
     
     
+    CoordinateArrows
+    {
+        id: coordinateSystemArrows
+        components: [    Transform
+                            {
+                                id: coordTransform
+                                matrix: {
+                                    var m = Qt.matrix4x4();
+                                    m.scale(0.2);
+                                    return m;
+                                }
+                            } ]
+    }
+    
     // Joints
     
     SphereMesh {
         id: topJointMesh
         radius: 0.02
-        rings: 6
-        slices: 6
+        rings: 8
+        slices: 8
     }
     SphereMesh {
         id: bottomJointMesh
         radius: 0.01
+        rings: 8
+        slices: 8
     }
     PhongMaterial
     {
@@ -144,13 +170,83 @@ Entity {
         components: [topJointMesh, jointMaterial, jointCTransform]
     }
     
+    
+    
+    //Platform
+    
+    CoordinateArrows
+    {
+        components: [Transform { scale: 0.2; translation: platformPosition }]
+    }
+    
     Entity
     {
-        id: origin
-        components: [topJointMesh, jointMaterial, identity]
+        components: [
+            Transform { 
+                id: platformTransform
+                translation: platformPosition 
+            }
+        ]
+        
+        CuboidMesh
+        {
+            id: platformMesh
+            zExtent: d_b1b3
+            xExtent: d_b2
+            yExtent: 0.01
+        }
+        
+        Transform
+        {
+            id: platformBoxTransform
+            translation: Qt.vector3d(d_b2/2,0,0)
+        }
+        
+        Entity
+        {
+            id: platformBox
+            components: [ platformMesh, material, platformBoxTransform ]
+        }
+        
+    }
+    
+    Transform
+    {
+        id: jointAATransform
+        translation: platformTransform.matrix.times(Qt.vector3d(0,0,d_b1b3/2))
+    }
+    Entity
+    {
+        id: jointAA
+        components: [bottomJointMesh, jointMaterial, jointAATransform]
+    }
+    
+    Transform
+    {
+        id: jointBBTransform
+        translation: platformTransform.matrix.times(Qt.vector3d(0,0,-d_b1b3/2))
+    }
+    Entity
+    {
+        id: jointBB
+        components: [bottomJointMesh, jointMaterial, jointBBTransform]
+    }
+    
+    Transform
+    {
+        id: jointCCTransform
+        translation: platformTransform.matrix.times(Qt.vector3d(d_b2,0,0))
+    }
+    Entity
+    {
+        id: jointCC
+        components: [bottomJointMesh, jointMaterial, jointCCTransform]
     }
     
     
+}
+}
+
     // Example Garbage
     
 //     TorusMesh {
@@ -202,6 +298,4 @@ Entity {
 //         id: sphereEntity
 //         components: [ sphereMesh, material, sphereTransform ]
 //     }
-}
 
-}

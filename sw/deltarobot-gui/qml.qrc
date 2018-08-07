@@ -4,10 +4,10 @@
         <file>main.qml</file>
         <file>CoordinateRow.qml</file>
         <file>ExechonScene.qml</file> 
-        <file>glcode.js</file>
-        <file>three.js</file>
+        <file>CoordinateArrows.qml</file> 
         <file>res/3d-mock.png</file>
         <file>res/menu-header.jpg</file> 
         <file>res/amigas.jpg</file>  
+        <file>res/ed-mock-2.png</file>  
     </qresource>
 </RCC>  
