@@ -19,6 +19,7 @@ Row
         text: "0.0"
         onTextEdited: evalFields()
         color: isNaN(text)? "red" : "black"
+        onFocusChanged: { if(focus) selectAll() }
     }
     QQC2.TextField
     {
@@ -27,6 +28,7 @@ Row
         text: "0.0"
         onTextEdited: evalFields()
         color: isNaN(text)? "red" : "black"
+        onFocusChanged: { if(focus) selectAll() }
     }
     QQC2.TextField
     {
@@ -35,6 +37,7 @@ Row
         text: "0.0"
         onTextEdited: evalFields()
         color: isNaN(text)? "red" : "black"
+        onFocusChanged: { if(focus) selectAll() }
     }
     
     function setText(x, y, z)

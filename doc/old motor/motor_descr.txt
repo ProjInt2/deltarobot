@@ -1,0 +1,13 @@
+Boa tarde, 
+Sou Lucas Camargo, aluno de Engenharia Mecatrônica da UFSC. Recebi seu contato por meio do Prof. Diego Greff. Ele deve ter mencionado a nossa necessidade de adquirir um motor similar a um que tínhamos em um projeto legado do laboratório. É um modelo pequeno com caixa de redução. Ocorreu dano ao rolamento do motor original , e na tentativa de conserto, as escovas foram quebradas.
+Infelizmente não temos as informações de chapa dele, porque é antigo e isso se perdeu. A única informação que temos é o fabricante, Bühler. Porém posso dar algumas características gerais e fotos: 
+- Comprimento do enrolamento: 45 mm
+- Diâmetro do enrolamento: 20 mm
+- Comprimento do íma permanente: 37 mm
+- Diâmetro da carcaça: 30 mm
+
+A ideia é encontrar um motor (ou três deles - para uma máquina paralela) que seja parecido.
+Desde já já agradeço a atenção.
+
+att,
+Lucas

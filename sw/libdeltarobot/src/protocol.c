@@ -67,15 +67,17 @@ inline static unsigned char dp_helper_checksum(struct protocol_msg *msg )
     return modsum;
 }
 
-inline static int dp_helper_opcode_valid( char opcode )
+inline static int dp_helper_opcode_valid( unsigned char opcode )
 {
     static const char *opcodes = DP_PROTO_ALL_OPCODES;
-    
-    while(*opcodes)
+    const char *tmp = opcodes;
+
+
+    while(*tmp)
     {
-        if((*opcodes) == opcode)
+        if(((unsigned char)(*tmp)) == opcode)
             return 1;
-        opcodes ++;
+        tmp ++;
     }
     
     return 0;
@@ -154,9 +156,9 @@ int dp_recv( struct protocol_data *data, struct protocol_msg *msg )
                 break;
                 
             case ST_READ_OPCODE:
-                msg->opcode = c;
-                if(dp_helper_opcode_valid(c))
+                if(dp_helper_opcode_valid(*(unsigned char*)&c))
                 {
+                    msg->opcode = c;
                     state = ST_READ_SIZE;
                     
                     #ifdef PROTOCOL_C_DEBUG_PRINT
@@ -255,7 +257,7 @@ int dp_recv( struct protocol_data *data, struct protocol_msg *msg )
 int dp_send( struct protocol_msg *msg, send_func_t sendfunc, void* usr )
 {
     // cool, we are going to be sending a message
-    char buf[1 + 1 + 1 + 255 + 1 + 1];
+    char buf[1 + 1 + 1 + 32 + 1 + 1];
     //      st  op  sz  data  ck  end
     int sz = 0;
     

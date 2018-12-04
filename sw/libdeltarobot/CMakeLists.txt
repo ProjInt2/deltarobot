@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 project(libdeltarobot LANGUAGES C CXX VERSION 0.1) 
+set (CMAKE_CXX_STANDARD_REQUIRED 11)
 
-add_library( deltarobot STATIC src/deltarobot.cpp src/protocol.c )
+add_library( deltarobot STATIC src/deltarobot.cpp src/protocol.c src/protocol_pc_utils.cpp )
 target_include_directories( deltarobot PUBLIC ${CMAKE_SOURCE_DIR}/include )
 
 

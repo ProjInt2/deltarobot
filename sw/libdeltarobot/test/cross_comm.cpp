@@ -67,81 +67,83 @@ int main(int argc, char ** argv)
     protocol_msg msg;
     int ret;
     
-    
-    std::cout << "\n\n\nTEST 1: send and receive a simple message with one data byte\n";     
-    
-    // send a message to b
-    std::cout << "sending ack to b" << std::endl;
-    bzero(&msg, sizeof(protocol_msg));
-    msg.opcode = DP_OPCODE_ACK;
-    msg.data_s = 1;
-    msg.data[0] = 'L'; // arbitrary
-    ret = dp_send(&msg, &send_to_another, &data_b);
-    
-    std::cout << "returned " << ret << std::endl;
-    if(ret)
-        return -1;
-    
-    std::cout << "dumping data in b" << std::endl;
-    dump_protocol_data(&data_b);
-    
-    // process message in b
-    std::cout << "processing message in b" << std::endl;
-    ret = dp_recv(&data_b, &msg);
-    
-    std::cout << "returned " << ret << std::endl;
-    if(ret)
-        return ret;
-    
-    dump_message(&msg);
-    if((msg.opcode != DP_OPCODE_ACK) ||
-       (msg.data_s != 1) ||
-       (msg.data[0] != 'L'))
+    for(int i = 0; i < 200; i++)
     {
-        std::cout << "message error!" << std::endl;        
-        return -2;
-    }
-    
-    
-    // BEGIN part 2
-    std::cout << "\n\n\nTEST 2: send three messages at once, and receive all of them\n";        
-    
-    ret = dp_send(&msg, &send_to_another, &data_a);
-    if(!ret) ret = dp_send(&msg, &send_to_another, &data_a);
-    if(!ret) ret = dp_send(&msg, &send_to_another, &data_a);
-    
-    std::cout << "returned " << ret << std::endl;
-    if(ret)
-        return ret;
-    
-#define CHECK_MSG \
-    if((msg.opcode != DP_OPCODE_ACK) || \
-        (msg.data_s != 1) || \
-        (msg.data[0] != 'L')) \
-    { \
-      ret = -99;  \
-    }
-    std::cout << "receiving and checking the three messages" << ret << std::endl;
-    
-    ret = dp_recv(&data_a, &msg);
-    CHECK_MSG
-    if(!ret) ret = dp_recv(&data_a, &msg);
-    CHECK_MSG
-    if(!ret) ret = dp_recv(&data_a, &msg);
-    CHECK_MSG
-    
-    std::cout << "returned " << ret << std::endl;
-    if(ret)
-        return ret;
 
-    std::cout << "trying to receive another" << std::endl;
-    if(!dp_recv(&data_a, &msg))
-    {
-        std::cout << "received! this is wrong!" << std::endl;
-        return -98;        
+        std::cout << "\n\n\nTEST 1: send and receive a simple message with one data byte\n";
+
+        // send a message to b
+        std::cout << "sending ack to b" << std::endl;
+        bzero(&msg, sizeof(protocol_msg));
+        msg.opcode = DP_OPCODE_ACK;
+        msg.data_s = 1;
+        msg.data[0] = 'L'; // arbitrary
+        ret = dp_send(&msg, &send_to_another, &data_b);
+
+        std::cout << "returned " << ret << std::endl;
+        if(ret)
+            return -1;
+
+        std::cout << "dumping data in b" << std::endl;
+        dump_protocol_data(&data_b);
+
+        // process message in b
+        std::cout << "processing message in b" << std::endl;
+        ret = dp_recv(&data_b, &msg);
+
+        std::cout << "returned " << ret << std::endl;
+        if(ret)
+            return ret;
+
+        dump_message(&msg);
+        if((msg.opcode != DP_OPCODE_ACK) ||
+        (msg.data_s != 1) ||
+        (msg.data[0] != 'L'))
+        {
+            std::cout << "message error!" << std::endl;
+            return -2;
+        }
+
+
+        // BEGIN part 2
+        std::cout << "\n\n\nTEST 2: send three messages at once, and receive all of them\n";
+
+        ret = dp_send(&msg, &send_to_another, &data_a);
+        if(!ret) ret = dp_send(&msg, &send_to_another, &data_a);
+        if(!ret) ret = dp_send(&msg, &send_to_another, &data_a);
+
+        std::cout << "returned " << ret << std::endl;
+        if(ret)
+            return ret;
+
+    #define CHECK_MSG \
+        if((msg.opcode != DP_OPCODE_ACK) || \
+            (msg.data_s != 1) || \
+            (msg.data[0] != 'L')) \
+        { \
+        ret = -99;  \
+        }
+        std::cout << "receiving and checking the three messages" << ret << std::endl;
+
+        ret = dp_recv(&data_a, &msg);
+        CHECK_MSG
+        if(!ret) ret = dp_recv(&data_a, &msg);
+        CHECK_MSG
+        if(!ret) ret = dp_recv(&data_a, &msg);
+        CHECK_MSG
+
+        std::cout << "returned " << ret << std::endl;
+        if(ret)
+            return ret;
+
+        std::cout << "trying to receive another" << std::endl;
+        if(!dp_recv(&data_a, &msg))
+        {
+            std::cout << "Received! But there shouldn't be anything left in the buffer!" << std::endl;
+            return -98;
+        }
     }
-    
+
     std::cout << "all tests passed! :)" << std::endl;
-     
-    
+
 }
